@@ -1,12 +1,14 @@
-from trace_skeleton import *
+from algorithms import *
 import cv2
 import random
   
-filename = "img/tree.png"
+filename = "img/multiple_obj.png"
 im0 = cv2.imread(filename,0)
 im = (im0[:,:]>128).astype(np.uint8)
 
-im = thinningZS(im)
+# uncomment according to algo use
+# im = thinningZS(im)
+im = thinningGH(im)
 
 cv2.imwrite('img/skeletonized.png', im*255)
 
