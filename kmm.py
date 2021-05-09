@@ -2,25 +2,27 @@ import cv2
 import numpy as np
 import time
 from functions import CalculateWeight, InvertImage, Mark4
+from performance_measures import ThinningRate, ThinningSpeed
 
-name = "circle.png"
+name = "big_dog.png"
 # InvertImage(name, cv2.imread(name, 0))
 # exit()
 
 # BACKGROUND = 0, FOREGROUND = 1
 image = cv2.imread(name, 0)
 n, m = len(image), len(image[0])
+image[image<=128] = 0
+image[image>128] = 255
 image[image==255] = 1
 
 # INITIALISATION
 deletion_array = {3, 5, 7, 12, 13, 14, 15, 20, 21, 22, 23, 28, 29, 30, 31, 48, 52, 53, 54, 55, 56, 60, 61, 62, 63, 65, 67, 69, 71, 77, 79, 80, 81, 83, 84, 85, 86, 87, 88, 89, 91, 92, 93, 94, 95, 97, 99, 101, 103, 109, 111, 112, 113, 115, 116, 117, 118, 119, 120, 121, 123, 124, 125, 126, 127, 131, 133, 135, 141, 143, 149, 151, 157, 159, 181, 183, 189, 191, 192, 193, 195, 197, 199, 205, 207, 208, 209, 211, 212, 213, 214, 215, 216, 217, 219, 220, 221, 222, 223, 224, 225, 227, 229, 231, 237, 239, 240, 241, 243, 244, 245, 246, 247, 248, 249, 251, 252, 253, 254, 255}
 change = True
 iterations = 0
+start = time.time()
 
 while change:
-	print ("Iteration : ", iterations)
 	change = False
-	start = time.time()
 	
 	# MARKING 2's
 	for i in range(n):
@@ -85,18 +87,31 @@ while change:
 				else:
 					image[i][j] = 1
 
-	# VISUALISATION
-	print ("Time Taken :", time.time()-start)
-	start = time.time()
-	iterations += 1
-	image = image*255
-	cv2.imshow("image", image)
-	cv2.waitKey(100)
-	image = image//255
+	# image = image*255
+	# cv2.imshow("image", image)
+	# cv2.waitKey(100)
+	# image = image//255
 
+exec_time = time.time()-start
+print ("Execution Time For the Image : ", exec_time)
 
+og_image = cv2.imread(name, 0)
+og_image[og_image<=128] = 0
+og_image[og_image>128] = 255
 image = image*255
-cv2.imshow("image", image)
-cv2.imwrite(name[:-4]+"_kmm.png", image)
+final_image = og_image-image
+cv2.imshow("image", final_image)
+cv2.imwrite(name[:-4]+"_kmm.png", final_image)
 cv2.waitKey(1000)
-image = image//255
+
+tr = ThinningRate(image)
+op, sp, ts = ThinningSpeed(og_image, image, exec_time)
+print ("Name : ", name)
+print ("Algo : KMM")
+print ("Thinning Rate : ", tr)
+print ("Object Points : ", op)
+print ("Skeleton Points : ", sp)
+print ("Thinning Speed : ", ts)
+
+
+
