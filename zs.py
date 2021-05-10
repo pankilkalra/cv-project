@@ -2,8 +2,9 @@ import cv2
 import numpy as np
 import time
 from performance_measures import ThinningRate, ThinningSpeed
+from name import name
 
-name = "big_dog.png"
+# name = "big_dog.png"
 def thinningZS(im):
 	img = np.copy(im)
 	prev = np.zeros(img.shape,np.uint8)
@@ -36,7 +37,7 @@ def thinningZSIteration(img, iter):
 				marker[i,j] = 1;
 	return np.bitwise_and(img,np.bitwise_not(marker))
 
-og_image = cv2.imread(name, 0)
+og_image = cv2.imread(name(), 0)
 og_image = (og_image[:,:]>128).astype(np.uint8)
 start = time.time()
 image = thinningZS(og_image)*255
@@ -47,11 +48,11 @@ print ("Execution Time For the Image : ", exec_time)
 
 cv2.imshow("cool", final_image)
 cv2.waitKey(2000)
-cv2.imwrite(name[:-4]+"_zs.png", final_image)
+cv2.imwrite("Output/"+name()[7:-4]+"_zs.png", final_image)
 
 tr = ThinningRate(image)
 op, sp, ts = ThinningSpeed(og_image, image, exec_time)
-print ("Name : ", name)
+print ("Name : ", name())
 print ("Algo : ZS")
 print ("Thinning Rate : ", tr)
 print ("Object Points : ", op)

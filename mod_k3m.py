@@ -3,6 +3,7 @@ import numpy as np
 import time
 from functions import CalculateWeight, InvertImage
 from performance_measures import ThinningRate, ThinningSpeed
+from name import name
 
 def c1(i, j, image):
 	wt = CalculateWeight(i, j, image)
@@ -16,7 +17,6 @@ def c2(i, j, image, borders):
 		return True
 	return False
 
-
 def c3(i, j, image, borders):
 	wt = CalculateWeight(i, j, image)
 	if (wt==195 or wt==227) and image[i+1][j-1] in borders:
@@ -24,10 +24,8 @@ def c3(i, j, image, borders):
 	return False
 
 
-
-
-name = "big_dog.png"
-# InvertImage(name, cv2.imread(name, 0))
+# name = "circle.png"
+# InvertImage(name(), cv2.imread(name(), 0))
 # exit()
 
 # INITIALISATION
@@ -42,7 +40,7 @@ lookup_arrays = [phase1_lookup, phase2_lookup, phase3_lookup, phase4_lookup, pha
 change = True
 
 # BACKGROUND = 0, FOREGROUND = 1
-image = cv2.imread(name, 0)
+image = cv2.imread(name(), 0)
 n, m = len(image), len(image[0])
 image[image<=128] = 0
 image[image>128] = 255
@@ -116,18 +114,18 @@ for i in range(n):
 exec_time = time.time()-start
 print ("Execution Time For the Image : ", exec_time)
 
-og_image = cv2.imread(name, 0)
+og_image = cv2.imread(name(), 0)
 og_image[og_image<=128] = 0
 og_image[og_image>128] = 255
 image = image*255
 final_image = og_image-image
 cv2.imshow("image", final_image)
-cv2.imwrite(name[:-4]+"_modk3m.png", final_image)
+cv2.imwrite("Output/"+name()[7:-4]+"_modk3m.png", final_image)
 cv2.waitKey(1000)
 
 tr = ThinningRate(image)
 op, sp, ts = ThinningSpeed(og_image, image, exec_time)
-print ("Name : ", name)
+print ("Name : ", name())
 print ("Algo : Modified K3M")
 print ("Thinning Rate : ", tr)
 print ("Object Points : ", op)

@@ -2,9 +2,9 @@ import cv2
 import numpy as np
 import time
 from performance_measures import ThinningRate, ThinningSpeed
+from name import name
 
-name = "big_dog.png"
-
+# name = "big_dog.png"
 def thinningGHIteration(img, iter):
 	marker = np.zeros(img.shape,np.uint8);
 	for i in range(1,img.shape[0]-1):
@@ -44,7 +44,7 @@ def thinningGH(im):
 		prev = img 
 	return img
 
-og_image = cv2.imread(name, 0)
+og_image = cv2.imread(name(), 0)
 og_image = (og_image[:,:]>128).astype(np.uint8)
 start = time.time()
 image = thinningGH(og_image)*255
@@ -55,11 +55,11 @@ print ("Execution Time For the Image : ", exec_time)
 
 cv2.imshow("cool", final_image)
 cv2.waitKey(2000)
-cv2.imwrite(name[:-4]+"_gh.png", final_image)
+cv2.imwrite("Output/"+name()[7:-4]+"_gh.png", final_image)
 
 tr = ThinningRate(image)
 op, sp, ts = ThinningSpeed(og_image, image, exec_time)
-print ("Name : ", name)
+print ("Name : ", name())
 print ("Algo : GH")
 print ("Thinning Rate : ", tr)
 print ("Object Points : ", op)
