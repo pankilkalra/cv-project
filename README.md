@@ -17,7 +17,7 @@ The objective is to then qualitatively and quantitatively compare their performa
 * [kmm.py](kmm.py)  - KMM Algorithm
 * [k3m.py](k3m.py)  - K3M Algorithm
 * [mod_k3m.py](mod_k3m.py)  - Modified K3M Algorithm
-* [Images](Images/) - Inpute Images
+* [Images](Images/) - Input Images
 * [Output](Output/) - Output Images
 
 ## Links to the papers of the different algorithms:
